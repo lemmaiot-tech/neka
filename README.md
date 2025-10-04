@@ -36,3 +36,42 @@ Getting started (developer)
    ```sh
    npm install
    ```
+2. Local environment
+
+   - Copy `.env.example` to `.env.local` and fill in your Firebase values and any server-side keys. Example:
+
+     NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
+     NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+     NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+     NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+     NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+
+     GEMINI_API_KEY=your_gemini_key  # server-only, keep in .env.local
+
+3. Start dev server:
+   ```sh
+   npm run dev
+   ```
+
+Netlify deployment
+- Build command: `npm run build`
+- Publish directory: `.next`
+- Add environment variables in Netlify UI (Site → Settings → Build & deploy → Environment):
+  - NEXT_PUBLIC_FIREBASE_API_KEY
+  - NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+  - NEXT_PUBLIC_FIREBASE_PROJECT_ID
+  - NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+  - NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+  - NEXT_PUBLIC_FIREBASE_APP_ID
+  - GEMINI_API_KEY (server-side only)
+
+Steps to add env vars on Netlify:
+1. Open your site in Netlify.
+2. Site settings → Build & deploy → Environment → Edit variables.
+3. Add the keys above and paste values from your Firebase console and third-party providers.
+4. Save and trigger a new deploy.
+
+Serverless function for Gemini
+- A Netlify Function `netlify/functions/gemini.js` is included to proxy requests to Gemini server-side using `GEMINI_API_KEY` so the key is never exposed client-side. Call it from your frontend at `/.netlify/functions/gemini`.
+
