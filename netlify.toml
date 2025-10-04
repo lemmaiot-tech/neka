@@ -1,9 +1,17 @@
 [build]
-  command = "npm run build"
+  command = "npm install && npm run build"
   publish = ".next"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-[context.production.environment]
+[build.environment]
+  NEXT_TELEMETRY_DISABLED = "1"
   NODE_VERSION = "20"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+[functions]
+  node_bundler = "esbuild"
+
+[context.production]
+  command = "npm install && npm run build"
